@@ -50,6 +50,23 @@ def clone(CVE):
 	except:
 		print("[!] No Related PoC on Github TAT")
 
+def search(CVE):
+	filename = "repo_urls/" + CVE
+
+	try:
+		with open(filename) as f:
+			lines = f.readlines()
+			repo_amount = 0
+
+			for line in lines:
+				repo_amount += 1
+				md = line.split("](")
+				repo_name = md[0][1:]
+				print(("[%2d] " % repo_amount) + repo_name)
+	except:
+		print("[!] No Related PoC on Github TAT")
+
+
 def main():
 	usage = "Usage: Collector.py [options] [arg1]"
 	parser = OptionParser(usage = usage)
@@ -64,7 +81,10 @@ def main():
 						help = "Update the PoC Collection")
 	parser.add_option("-c", "--clone",
 						dest = "cve",
-						help = "Clone the CVE PoC")
+						help = "Clone all PoC of the specified CVE")
+	parser.add_option("-s", "--search",
+						dest = "vuln", 
+						help = "Find if there are PoC of CVE")
 
 	(options, args) = parser.parse_args()
 
@@ -74,6 +94,8 @@ def main():
 		update()
 	elif options.cve != None:
 		clone(options.cve)
+	elif options.vuln != None:
+		search(options.vuln)
 	else:
 		print("Usage: " + parser.usage)
 		exit()
