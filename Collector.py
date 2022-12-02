@@ -33,7 +33,7 @@ def update():
 				CVE_repo = []
 		print("[!] Generation Complete")
 
-def clone(CVE):
+def clone_all(CVE):
 	filename = "repo_urls/" + CVE
 	basedir = "/opt/exploitDB/"     # Repository Location
 
@@ -50,8 +50,21 @@ def clone(CVE):
 	except:
 		print("[!] No Related PoC on Github TAT")
 
+
+def clone_repo(CVE, repo):
+	basedir = "/opt/exploitDB/"     # Repository Location
+	repo_url = "https://github.com/" + repo
+	dirname = basedir + CVE + "/" + repo.replace("/", "_")
+
+	try:
+		print()
+		os.system("git clone " + repo_url + " " + dirname)
+	except:
+		print("[!] No Related PoC on Github TAT")
+
 def search(CVE):
 	filename = "repo_urls/" + CVE
+	repo = []
 
 	try:
 		with open(filename) as f:
@@ -62,9 +75,13 @@ def search(CVE):
 				repo_amount += 1
 				md = line.split("](")
 				repo_name = md[0][1:]
-				print(("[%2d] " % repo_amount) + repo_name)
+				repo.append(repo_name)
+				print(("[%3d] " % repo_amount) + repo_name)
+		choice = int(input("Which repository do you want to clone? "))
+		clone_repo(CVE, repo[choice - 1])
 	except:
 		print("[!] No Related PoC on Github TAT")
+	
 
 
 def main():
