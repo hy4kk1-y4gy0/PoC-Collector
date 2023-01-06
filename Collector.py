@@ -77,12 +77,15 @@ def search(CVE):
 				repo_name = md[0][1:]
 				repo.append(repo_name)
 				print(("[%3d] " % repo_amount) + repo_name)
-		choice = int(input("Which repository do you want to clone? "))
-		clone_repo(CVE, repo[choice - 1])
+		choice = int(input("Which repository do you want to clone? \n(Input -1 to leave) > "))
 	except:
 		print("[!] No Related PoC on Github TAT")
-	
 
+	if choice == -1:
+		print("Bye!")
+		exit()
+	else:
+		clone_repo(CVE, repo[choice - 1])
 
 def main():
 	usage = "Usage: Collector.py [options] [arg1]"
