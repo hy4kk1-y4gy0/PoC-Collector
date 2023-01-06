@@ -113,7 +113,7 @@ def main():
 	elif options.update:
 		update()
 	elif options.cve != None:
-		clone(options.cve)
+		clone_all(options.cve)
 	elif options.vuln != None:
 		search(options.vuln)
 	else:
